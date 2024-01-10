@@ -23,6 +23,7 @@ public class PhoneBookEntry {
 
         return id != null ? id.equals(that.id) : that.id == null;
     }
+    
 
     @Override
     public int hashCode() {

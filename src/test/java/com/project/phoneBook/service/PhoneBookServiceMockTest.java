@@ -11,13 +11,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.phoneBook.exception.PhoneBookException;
 import com.project.phoneBook.model.PhoneBookEntry;
 import com.project.phoneBook.repo.PhoneBookRepository;
 
@@ -36,6 +41,7 @@ public class PhoneBookServiceMockTest {
 	private PhoneBookRepository phoneBookMock;
 	@InjectMocks
 	private PhoneBookService phoneBookService;
+	
 	@BeforeEach
 	public void createPhoneBook() {
 		actualList2 =new ArrayList<>();		
@@ -46,7 +52,7 @@ public class PhoneBookServiceMockTest {
 		entry3=new PhoneBookEntry();
 		entry1.setId((long) 1);
 		entry1.setName("siddartha");
-		entry1.setPhoneNumber("836762891");
+		entry1.setPhoneNumber("836762891"); 
 		entry2.setId((long) 2);
 		entry2.setName("Jeevan");
 		entry2.setPhoneNumber("909092345");
@@ -73,17 +79,32 @@ public class PhoneBookServiceMockTest {
 		System.out.println(phoneBookService.getAllEntries().get(0).getName());
 	}
 	@Test
+	public void getAllException() {
+		when(phoneBookMock.findAll()).thenReturn(Collections.emptyList());
+		assertThrows(PhoneBookException.class,()->{
+			phoneBookService.getAllEntries();
+		});
+		
+	}
+	
+	
+	@Test
 	public void getByName() {
 //		PhoneBookRepository getAllEntriesMock= mock(PhoneBookRepository.class);
 		String str1="siddartha";
 		String str2="reddy";
+		
 		when(phoneBookMock.findByName(Mockito.anyString()) ).thenReturn(entry1);
 //		PhoneBookService getAllServiceTest= new PhoneBookService(getAllEntriesMock);
-		PhoneBookEntry entry= phoneBookService.getByName("siddartha");
+		PhoneBookEntry entry= phoneBookService.getByName(Mockito.anyString());
 		assertNotNull(entry);
 		assertEquals(str1,entry.getName());
 		assertNotEquals(str2,entry.getName());
 	}
+//	@Test
+//	public void getByNameException() {
+//		when(phoneBookMock.findByName(Mockito.anyString()) ).thenReturn(null);
+//	}
 	@Test
 	public void getById() {
 		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(optionalList);
@@ -93,19 +114,82 @@ public class PhoneBookServiceMockTest {
 		assertEquals((long)1,result);
 		assertNotEquals((long)3,result);
 	}
+	@Test
+	public void getByIdException() {
+		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		assertThrows(PhoneBookException.class,()->{
+			phoneBookService.getEntryById((long)1);
+		});
+		
+	}
 	@Test 
 	public void postEntry() {
 		when(phoneBookMock.save(entry1)).thenReturn(entry1);
 		PhoneBookEntry entry=phoneBookService.saveEntry(entry1);
 		assertNotNull(entry);
 		assertEquals(entry3,entry);
+		assertNotEquals(entry2,entry);
 //		assertEquals(entry1.getId(),entry.getId());
 //		assertEquals(entry1.getName(),entry.getName());
 //		assertEquals(entry1.getPhoneNumber(),entry.getPhoneNumber());
 		
 	}
-//	@Test 
-//	public void 
 	
-
+	@Test
+	public void postEntryException() {
+		when(phoneBookMock.save(entry1)).thenReturn(null);
+		assertThrows(PhoneBookException.class,()->{
+			phoneBookService.saveEntry(entry1);
+		});
+	}
+	@Test 
+	public void deleteEntry()
+	{
+		Mockito.doNothing().when(phoneBookMock).deleteById(Mockito.anyLong());
+		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(Optional.empty()).thenReturn(optionalList);
+//		 phoneBookService.deleteEntry(entry1.getId());
+		assertThrows(PhoneBookException.class, () -> {
+            phoneBookService.deleteEntry(Mockito.anyLong());
+            
+        });
+		phoneBookService.deleteEntry((long)1);
+		verify(phoneBookMock, times(2)).findById(Mockito.anyLong());
+		verify(phoneBookMock, times(1)).deleteById((long)1);
+	}
+	
+	@Test
+	public void editEntry() {
+		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(optionalList);
+		when(phoneBookMock.save(entry1)).thenReturn(entry1);
+		PhoneBookEntry entry = phoneBookService.editEntry((long)1,entry1);
+		assertNotNull(entry);
+		assertEquals(entry1,entry);
+		assertEquals(entry3,entry);
+		assertNotEquals(entry2,entry);
+	}
+	@Test
+	public void editEntryException() {
+		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		assertThrows(PhoneBookException.class,()->{
+			phoneBookService.editEntry((long)1,entry1);
+		});
+	}
+	
+	@Test
+	public void editParticularEntry() {
+		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(optionalList);
+		when(phoneBookMock.save(entry1)).thenReturn(entry1);
+		PhoneBookEntry entry = phoneBookService.editOnly((long)1,entry1);
+		assertNotNull(entry);
+		assertEquals(entry1,entry);
+		assertEquals(entry3,entry);
+	    assertNotEquals(entry2,entry);
+	}
+	@Test
+	public void editParticularException() {
+		when(phoneBookMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		assertThrows(PhoneBookException.class,()->{
+			phoneBookService.editOnly((long)1,entry1);
+		});
+	}
 }
