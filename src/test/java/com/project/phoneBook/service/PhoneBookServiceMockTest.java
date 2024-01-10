@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -86,7 +87,10 @@ public class PhoneBookServiceMockTest {
 		});
 		
 	}
-	
+	@Test
+	public void demo() {
+//		fail();
+	}
 	
 	@Test
 	public void getByName() {
@@ -174,6 +178,7 @@ public class PhoneBookServiceMockTest {
 			phoneBookService.editEntry((long)1,entry1);
 		});
 	}
+	
 	
 	@Test
 	public void editParticularEntry() {

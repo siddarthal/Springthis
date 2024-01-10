@@ -44,7 +44,7 @@ public class PhoneBookService implements PhoneBook {
     	}
     	else {
     		throw new PhoneBookException("Unable to find data from db with following id:"+ id);
-    	}
+    	} 
     }
 
     public PhoneBookEntry saveEntry(PhoneBookEntry entry) {
