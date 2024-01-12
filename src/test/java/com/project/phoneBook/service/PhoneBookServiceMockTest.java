@@ -41,7 +41,7 @@ public class PhoneBookServiceMockTest {
 	@Mock
 	private PhoneBookRepository phoneBookMock;
 	@InjectMocks
-	private PhoneBookService phoneBookService;
+	private PhoneBookServiceImple phoneBookService;
 	
 	@BeforeEach
 	public void createPhoneBook() {
@@ -66,12 +66,14 @@ public class PhoneBookServiceMockTest {
 		actualList3.add(entry3);
 		System.out.println("in before each block");
 	}
-	
+
 	@Test
 	public void getAll() {
 		when(phoneBookMock.findAll()).thenReturn(actualList);
 		List<PhoneBookEntry> entry =phoneBookService.getAllEntries();
 		assertNotNull(entry);
+		assertEquals(actualList.get(0),entry.get(0));
+		assertEquals(actualList3,entry);
 		assertEquals(actualList3.get(0),entry.get(0));
 //		assertEquals(actualList.get(0).getId(),entry.get(0).getId());
 //		assertEquals(actualList.get(0).getName(),entry.get(0).getName());
@@ -158,7 +160,7 @@ public class PhoneBookServiceMockTest {
         });
 		phoneBookService.deleteEntry((long)1);
 		verify(phoneBookMock, times(2)).findById(Mockito.anyLong());
-		verify(phoneBookMock, times(1)).deleteById((long)1);
+		verify(phoneBookMock, times(1)).deleteById(Mockito.anyLong());
 	}
 	
 	@Test

@@ -1,6 +1,6 @@
 package com.project.phoneBook.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;s
 import org.springframework.stereotype.Service;
 
 import com.project.phoneBook.exception.PhoneBookException;
@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PhoneBookService implements PhoneBook {
+public class PhoneBookServiceImple implements PhoneBook {
 
     
     private PhoneBookRepository phoneBookRepository;
     
     
 
-    public PhoneBookService(PhoneBookRepository phoneBookRepository) {
+    public PhoneBookServiceImple(PhoneBookRepository phoneBookRepository) {
 		super();
 		this.phoneBookRepository = phoneBookRepository;
 	}

@@ -12,6 +12,7 @@ public class PhoneBookEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    
     private String name;
     private String phoneNumber;
     @Override
@@ -25,10 +26,10 @@ public class PhoneBookEntry {
     }
     
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+//    @Override
+//    public int hashCode() {
+//        return id != null ? id.hashCode() : 0;
+//    }
    
 	public Long getId() {
 		return id;

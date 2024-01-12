@@ -22,7 +22,7 @@ public class PhoneBooksServiceStubTest {
 	@Test
 	public void testGetAllEntries() {
 		StubClass dataServiceStub=new StubClass();
-		PhoneBookService phoneBookService =new PhoneBookService(dataServiceStub);
+		PhoneBookServiceImple phoneBookService =new PhoneBookServiceImple(dataServiceStub);
 		String strName;
 		List<PhoneBookEntry> result =phoneBookService.getAllEntries();
 		List<PhoneBookEntry> al=new ArrayList<>();

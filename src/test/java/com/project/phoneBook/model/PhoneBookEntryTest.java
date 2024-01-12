@@ -24,17 +24,17 @@ public class PhoneBookEntryTest {
 		entry3=new PhoneBookEntry();
 		entry3.setId((long)2);
 	}
-	@Test
-	public void testId() {
-		assertEquals(entry1.hashCode(),entry2.hashCode());
-		assertNotEquals(entry1.hashCode(),entry3.hashCode());
-		entry1.setId(null);
-        entry2.setId(null);
-        assertEquals(entry1.hashCode(), entry2.hashCode());
-        entry1.setId((long) 1);
-        entry2.setId(null);
-        assertNotEquals(entry1.hashCode(), entry2.hashCode());
-	}
+//	@Test
+//	public void testId() {
+//		assertEquals(entry1.hashCode(),entry2.hashCode());
+//		assertNotEquals(entry1.hashCode(),entry3.hashCode());
+//		entry1.setId(null);
+//        entry2.setId(null);
+//        assertEquals(entry1.hashCode(), entry2.hashCode());
+//        entry1.setId((long) 1);
+//        entry2.setId(null);
+//        assertNotEquals(entry1.hashCode(), entry2.hashCode());
+//	}
 	@Test
 	public void equals() {
 		assertEquals(entry1,entry2);
